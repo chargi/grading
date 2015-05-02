@@ -12,7 +12,8 @@
  *          This file contains the class definitions for Person, Teacher and Student
  */
 
-#include "grading.h"
+#include "person.h"
+#include "course.h"
 #include <iostream>
 #include <string>
 #include <map>
@@ -27,16 +28,20 @@ Person::~Person() {
     
 }
 
-Student::Student(string name) : Person(name), ptype("Student") {
-    
+void Person::getinfo() {
+    cout << endl << this->name << " is a " << this->ptype << endl << endl;
+}
+
+Student::Student(string name) : Person(name), ptype("student") {
+    cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
 Student::~Student() {
     
 }
 
-Teacher::Teacher(string name) : Person(name), ptype("Teacher") {
-    
+Teacher::Teacher(string name) : Person(name), ptype("teacher") {
+    cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
 Teacher::~Teacher() {

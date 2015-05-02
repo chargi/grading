@@ -12,7 +12,8 @@
  *          This file contains the class definitions for Course
  */
 
-#include "grading.h"
+#include "person.h"
+#include "course.h"
 #include <iostream>
 #include <string>
 #include <map>
@@ -27,11 +28,11 @@ Course::~Course() {
     
 }
 
-void Course::insert(Person Guy) {
-    this->book.insert(pair<Person, map<string, int> >(Guy, NULL));
+void Course::insert(string guy) {
+    grades.insert ( pair<string,int>(guy,0) );
 }
 
-void Course::grade(Person Guy) {
+void Course::grade(string guy) {
     
 }
     
@@ -39,6 +40,6 @@ void Course::list() {
     
 }
     
-void Course::find(string) {
+void Course::find(string guy) {
     
 }
