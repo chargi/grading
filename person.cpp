@@ -20,7 +20,7 @@
 
 using namespace std;
 
-Person::Person(string name) : name(name) {
+Person::Person(string name, string ptype) : name(name), ptype(ptype) {
     
 }
 
@@ -32,7 +32,7 @@ void Person::getinfo() {
     cout << endl << this->name << " is a " << this->ptype << endl << endl;
 }
 
-Student::Student(string name) : Person(name), ptype("student") {
+Student::Student(string name) : Person(name, "student") {
     cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
@@ -40,7 +40,7 @@ Student::~Student() {
     
 }
 
-Teacher::Teacher(string name) : Person(name), ptype("teacher") {
+Teacher::Teacher(string name) : Person(name, "teacher") {
     cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
