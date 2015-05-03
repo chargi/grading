@@ -11,8 +11,6 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <typeinfo>
-#include <cxxabi.h>
 #include "course.h"
 
 using namespace std;
@@ -28,7 +26,6 @@ using namespace std;
             void getInfo();
             virtual void addCourse(string, Course*) = 0;
             bool isStudent();
-            string getType(string);
     };
     
     class Student : public Person {
@@ -36,15 +33,13 @@ using namespace std;
             Student(string name);
             ~Student();
             void addCourse(string, Course*);
-            string getType() { return Person::getType(abi::__cxa_demangle(typeid(this).name(),0,0,0)); }
     };
     
     class Teacher : public Person {
         public:
             Teacher(string name);
             ~Teacher();
-            void addCourse(string, Course*);   
-            string getType() { return Person::getType(abi::__cxa_demangle(typeid(this).name(),0,0,0)); }
+            void addCourse(string, Course*);
     };
 
 
