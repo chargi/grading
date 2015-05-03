@@ -9,7 +9,7 @@
  * File:   grading.cpp
  *
  * Description:
- *          This file contains the class definitions for Course
+ *          This file contains the attributes and methods for Course
  */
 
 #include "person.h"
@@ -28,18 +28,19 @@ Course::~Course() {
     
 }
 
-void Course::insert(string guy) {
-    grades.insert ( pair<string,int>(guy,0) );
+int Course::grade(string guy, int mark) {
+    if (grades.count(guy) > 0) {
+        auto it = grades.find(guy);
+        it->second = mark;
+        return 1;
+    }
+    else {
+        grades.insert ( pair<string,int>(guy,mark));
+        return 0;
+    }
 }
-
-void Course::grade(string guy) {
     
-}
-    
-void Course::list() {
-    
-}
-    
-void Course::find(string guy) {
-    
+int Course::getGrade(string guy) {
+    auto it = grades.find(guy);
+    return it->second;
 }

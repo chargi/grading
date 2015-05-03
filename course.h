@@ -16,14 +16,13 @@
 using namespace std;
 
     class Course {
+        protected:
+            map <string, int> grades;
         public:
             Course();
             ~Course();
-            map <string, int> grades;
-            void insert(string);
-            void grade(string);
-            void list();
-            void find(string);
+            int grade(string, int);
+            int getGrade(string);
     }; 
 
 

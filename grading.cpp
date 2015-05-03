@@ -24,6 +24,8 @@ using namespace std;
 int validinput();
 string getstring();
 void printmenu();
+bool nameExists(string, map<string,Person*>* mapptr);
+bool courseExists(string, map<string,Course*>* mapptr);
 
 int main(int argc, char** argv) {
     
@@ -41,6 +43,7 @@ int main(int argc, char** argv) {
     
     do {
         string tempstring;
+        string tempstring2;
         
         
         printmenu();
@@ -66,24 +69,38 @@ int main(int argc, char** argv) {
                         case 1:
                             cout << "Enter name: " << endl << "> ";
                             tempstring = getstring();
-                            personptr = new Student(tempstring);
-                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
+                            if (nameExists(tempstring, &phonebook)) {
+                                cout << tempstring << " already exists." << endl << endl;
+                            }
+                            else {
+                                personptr = new Student(tempstring);
+                                phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
+                            }
                             break;
                         case 2:
                             cout << "Enter name: " << endl << "> ";
                             tempstring = getstring();
-                            personptr = new Teacher(tempstring);
-                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
-                            
+                            if (nameExists(tempstring, &phonebook)) {
+                                cout << tempstring << " already exists." << endl << endl;
+                            }
+                            else {
+                                personptr = new Teacher(tempstring);
+                                phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
+                            }
                             cout << endl << "Add course (0 to exit): " << endl;
                             do {
                                     cout << "> ";
                                     tempstring = getstring();
                                     
-                                    if (tempstring != "0") {
-                                        courseptr = new Course();
-                                        coursebook.insert ( pair<string,Course*>(tempstring,courseptr) );
-                                        personptr->addcourse(tempstring, courseptr);
+                                    if (nameExists(tempstring, &phonebook)) {
+                                        cout << tempstring << " already exists." << endl << endl;
+                                    }                                    
+                                    else {
+                                        if (tempstring != "0") {
+                                            courseptr = new Course();
+                                            coursebook.insert ( pair<string,Course*>(tempstring,courseptr) );
+                                            personptr->addCourse(tempstring, courseptr);
+                                        }
                                     }
                             } while (tempstring != "0");                            
                                 
@@ -96,32 +113,80 @@ int main(int argc, char** argv) {
                 break;
             //Find person
             case 2:
-                cout << endl << "Enter name: " << endl << "> ";
+                cout << endl << endl << "Enter name: " << endl << "> ";
                 tempstring = getstring();
                 //Iterate through phonebook and compare given name with input
-                for(auto sp : phonebook) {
-                    if (sp.first == tempstring) {
-                        sp.second->getinfo();
-                        break;
+                if (nameExists(tempstring, &phonebook)) {
+                    personptr = phonebook.find(tempstring)->second;
+
+                    if (personptr != nullptr) {
+                        cout << endl;
+                        personptr->getInfo();
                     }
                     else {
-                        cout << endl <<"Person not found" << endl;
+                        cout << endl << "Fatal error. Contact the developers." << endl;
                     }
+                }
+                else {
+                    cout << endl << "No records found for " << tempstring << "." << endl;
                 }
                 break;
             //Show people
             case 3:
-                //Iterate through phonebook and print output
+                //Iterate through phonebook and print getinfo())
+                cout << endl;
                 for(auto sp : phonebook) {
-                    cout << sp.first << " existiert als " << sp.second->name << endl;
+                    sp.second->getInfo();
                 }
+                cout << endl;
                 break;
             //Grade student
             case 4:
+                cout << endl << "Enter name: " << endl << "> ";
+                tempstring = getstring();
+                if (nameExists(tempstring, &phonebook)) {
+                    personptr = phonebook.find(tempstring)->second;
+                    
+                    if (personptr->isStudent()) {
+                        cout << endl << "Enter course: " << endl << "> ";
+                        tempstring2 = getstring();
+                        if (courseExists(tempstring2, &coursebook)) {
+                            cout << endl << "Enter grade (1-5): " << endl << "> ";
+                            int grade = 0;
+                            grade = validinput();
+                            if (grade > 0 && grade < 6) {
+                                //Grade student
+                                courseptr = coursebook.find(tempstring2)->second;
+                                if (courseptr->grade(tempstring,grade) == 1) {
+                                    cout << "Student was already graded. Grade was updated." << endl;
+                                }
+                                personptr->addCourse(tempstring2, courseptr);
+                            }
+                            else {
+                                cout << endl << "Invalid grade." << endl;
+                                break;
+                            }
+                        }
+                        else {
+                            cout << endl <<  "Course not found." << endl;
+                            break;
+                        }
+                    }
+                    else {
+                        cout << endl <<  tempstring << " is not enlisted as a student." << endl;
+                        break;
+                    }
+                }
+                else {
+                    cout << endl <<  "Name not found." << endl;
+                    break;
+                }
                 break;
+            //Quit
             case 5:
                 cout << endl << "Goodbye!" << endl << endl;
                 break;
+            //Invalid Input
             default:
                 cout << endl << "Invalid Input." << endl << endl;
                 break;
@@ -161,10 +226,28 @@ string getstring() {
 }
 
 void printmenu() {
-    cout << "-- Make your choice --" << endl
+    cout << endl
+         << "-- Make your choice --" << endl
          << "[1] Add person" << endl
          << "[2] Find person" << endl
          << "[3] Show people" << endl
          << "[4] Grade student" << endl
          << "[5] Quit" << endl << endl;
+}
+
+bool nameExists(string name, map<string,Person*>* mapptr) {
+    if (mapptr->count(name) > 0) {
+        return true;
+    }
+    
+    return false;
+    
+}
+
+bool courseExists(string name, map<string,Course*>* mapptr) {
+    if (mapptr->count(name) > 0) {
+        return true;
+    }
+    
+    return false;
 }

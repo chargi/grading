@@ -9,7 +9,7 @@
  * File:   grading.cpp
  *
  * Description:
- *          This file contains the class definitions for Person, Teacher and Student
+ *          This file contains the attributes and methods for Person, Teacher and Student
  */
 
 #include "person.h"
@@ -28,7 +28,37 @@ Person::~Person() {
     
 }
 
-Student::Student(string name) : Person(name, "student") {
+void Person::getInfo() {
+    if (!this->courses.empty()) {
+        cout << this->name << " (" << this->ptype << ": ";
+
+        for (auto it = this->courses.begin(); it != this->courses.end(); ++it) {
+            cout << it->first;
+            
+            if (this->ptype == "Student") {
+                int tmpgrade = it->second->getGrade(this->name);
+                cout << ": " << tmpgrade;
+            }
+            
+            if (it != --(this->courses.end())) {
+                cout << ", ";
+            }
+        }
+        cout << ")" << endl;
+    }
+    else {
+        cout << this->name << " is a " << this->ptype << " without courses." << endl;
+    }
+}
+
+bool Person::isStudent() {
+    if (this->ptype == "Student") {
+        return true;
+    }
+    return false;
+}
+
+Student::Student(string name) : Person(name, "Student") {
     cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
@@ -36,15 +66,11 @@ Student::~Student() {
     
 }
 
-void Student::addcourse(string course, Course* courseptr) {
+void Student::addCourse(string course, Course* courseptr) {
     courses.insert ( pair<string,Course*>(course,courseptr) );
 }
 
-void Student::getinfo() {
-    cout << endl << this->name << " is a " << this->ptype << endl << endl;
-}
-
-Teacher::Teacher(string name) : Person(name, "teacher") {
+Teacher::Teacher(string name) : Person(name, "Teacher") {
     cout << this->name << " added as a " << this->ptype << "." << endl;
 }
 
@@ -52,23 +78,7 @@ Teacher::~Teacher() {
     
 }
 
-void Teacher::addcourse(string course, Course* courseptr) {
+void Teacher::addCourse(string course, Course* courseptr) {
     courses.insert ( pair<string,Course*>(course,courseptr) );
 }
 
-void Teacher::getinfo() {
-    if (!this->courses.empty()) {
-        cout << endl << this->name << " (" << "Teacher" << ": ";
-
-        for (auto it = this->courses.begin(); it != this->courses.end(); ++it) {
-            cout << it->first;
-            if (it != --this->courses.end()) {
-                cout << ", ";
-            }
-        }
-    }
-    else {
-        cout << endl << this-> name << "is a " << this->ptype << " without courses.";
-    }
-    cout << ")" << endl << endl;
-}
