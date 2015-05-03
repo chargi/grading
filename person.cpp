@@ -47,7 +47,9 @@ void Person::getInfo() {
         cout << ")" << endl;
     }
     else {
-        cout << this->name << " is a " << this->ptype << " without courses." << endl;
+        string temptype = this->ptype;
+        temptype[0] = tolower(temptype[0]);
+        cout << this->name << " is a " << temptype << " without courses." << endl;
     }
 }
 
@@ -59,7 +61,9 @@ bool Person::isStudent() {
 }
 
 Student::Student(string name) : Person(name, "Student") {
-    cout << this->name << " added as a " << this->ptype << "." << endl;
+    string temptype = this->ptype;
+    temptype[0] = tolower(temptype[0]);
+    cout << this->name << " added as a " << temptype << "." << endl;
 }
 
 Student::~Student() {
@@ -71,7 +75,9 @@ void Student::addCourse(string course, Course* courseptr) {
 }
 
 Teacher::Teacher(string name) : Person(name, "Teacher") {
-    cout << this->name << " added as a " << this->ptype << "." << endl;
+    string temptype = this->ptype;
+    temptype[0] = tolower(temptype[0]);
+    cout << this->name << " added as a " << temptype << "." << endl;
 }
 
 Teacher::~Teacher() {

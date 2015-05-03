@@ -95,13 +95,18 @@ int main(int argc, char** argv) {
                                         if (tempstring != "0") {
                                             courseptr = new Course();
                                             coursebook.insert ( pair<string,Course*>(tempstring,courseptr) );
-                                            personptr->addCourse(tempstring, courseptr);
+                                            if (personptr != nullptr) {
+                                                personptr->addCourse(tempstring, courseptr);
+                                            }
+                                            else {
+                                                cout << endl << "Fatal error. Contact the developers." << endl;
+                                            }
                                         }
                                     }
                             } while (tempstring != "0");                            
                         }  
                     default:
-                        cout << "Invalid Input." << endl << endl;
+                        cout << "Invalid Input. Going back to main menu." << endl << endl;
                         break;
                     }
                 break;
@@ -182,7 +187,7 @@ int main(int argc, char** argv) {
                 break;
             //Invalid Input
             default:
-                cout << endl << "Invalid Input." << endl << endl;
+                cout << endl << "Invalid Input. Take a look at the menu." << endl << endl;
                 break;
         }            
     } while(choice != 5);
