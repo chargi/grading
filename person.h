@@ -17,29 +17,30 @@ using namespace std;
 
     class Person {
         public:
-            Person(string name);
+            Person(string name, string ptype);
             virtual ~Person();
             const string name;
             const string ptype;
-            void getinfo();
+            void virtual getinfo() { };
+            void virtual addcourse(string, Course*) { };
     };
     
     class Student : public Person {
         public:
             Student(string name);
             ~Student();
-            const string ptype;
             map <string, Course*> courses;
             void getinfo();
+            void addcourse(string, Course*);
     };
     
     class Teacher : public Person {
         public:
             Teacher(string name);
             ~Teacher();
-            const string ptype;
             map <string, Course*> courses;
             void getinfo();
+            void addcourse(string, Course*);
     };
 
 

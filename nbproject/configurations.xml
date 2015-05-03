@@ -47,7 +47,7 @@
         <ccTool>
           <standard>8</standard>
           <commandLine>-Wall</commandLine>
-          <warningLevel>3</warningLevel>
+          <warningLevel>2</warningLevel>
         </ccTool>
       </compileType>
       <item path="course.cpp" ex="false" tool="1" flavor2="0">

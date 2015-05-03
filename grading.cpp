@@ -36,9 +36,6 @@ int main(int argc, char** argv) {
     cout << "Welcome to G.R.A.D.I.N.G.!" << endl
          << "The one and only Student / Teacher Grading System!" << endl << endl;
     
-    //Menu
-    printmenu();
-    
     
     int choice = 0;
     
@@ -50,13 +47,14 @@ int main(int argc, char** argv) {
         cout << "> ";
         choice = validinput();
         int studorteach = 0;
+        Course* courseptr = nullptr;
+        Person* personptr = nullptr;
         
         switch (choice) {
             //Add person    
             case 1:
                 cout << "[1] Add student" << endl
-                     << "[2] Add teacher" << endl
-                     << "[0] Quit" << endl << endl;
+                     << "[2] Add teacher" << endl << endl;
 
                 do {
                     studorteach = validinput();
@@ -68,24 +66,39 @@ int main(int argc, char** argv) {
                         case 1:
                             cout << "Enter name: " << endl << "> ";
                             tempstring = getstring();
-                            phonebook.insert ( pair<string,Person*>(tempstring,new Student(tempstring)) );
+                            personptr = new Student(tempstring);
+                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
                             break;
                         case 2:
                             cout << "Enter name: " << endl << "> ";
                             tempstring = getstring();
-                            phonebook.insert ( pair<string,Person*>(tempstring,new Teacher(tempstring)) );
+                            personptr = new Teacher(tempstring);
+                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
+                            
+                            cout << endl << "Add course (0 to exit): " << endl;
+                            do {
+                                    cout << "> ";
+                                    tempstring = getstring();
+                                    
+                                    if (tempstring != "0") {
+                                        courseptr = new Course();
+                                        coursebook.insert ( pair<string,Course*>(tempstring,courseptr) );
+                                        personptr->addcourse(tempstring, courseptr);
+                                    }
+                            } while (tempstring != "0");                            
+                                
                             break;
                         default:
                             cout << "Invalid Input." << endl << endl;
                             break;
                     }
-                } while(studorteach != 0);
+                } while(studorteach != 1 && studorteach != 2);
                 break;
             //Find person
             case 2:
                 cout << endl << "Enter name: " << endl << "> ";
                 tempstring = getstring();
-                //Iterate through phonebook and compare given names with input
+                //Iterate through phonebook and compare given name with input
                 for(auto sp : phonebook) {
                     if (sp.first == tempstring) {
                         sp.second->getinfo();
