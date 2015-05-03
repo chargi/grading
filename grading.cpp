@@ -40,6 +40,7 @@ int main(int argc, char** argv) {
     
     
     int choice = 0;
+    int studorteach = 0;
     
     do {
         string tempstring;
@@ -49,7 +50,6 @@ int main(int argc, char** argv) {
         printmenu();
         cout << "> ";
         choice = validinput();
-        int studorteach = 0;
         Course* courseptr = nullptr;
         Person* personptr = nullptr;
         
@@ -58,40 +58,36 @@ int main(int argc, char** argv) {
             case 1:
                 cout << "[1] Add student" << endl
                      << "[2] Add teacher" << endl << endl;
+                
+                studorteach = validinput();
+                switch (studorteach) {
+                    case 1:
+                        cout << "Enter name: " << endl << "> ";
+                        tempstring = getstring();
+                        if (nameExists(tempstring, &phonebook)) {
+                            cout << tempstring << " already exists." << endl << endl;
+                        }
+                        else {
+                            personptr = new Student(tempstring);
+                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
+                        }
+                        break;
+                    case 2:
+                        cout << "Enter name: " << endl << "> ";
+                        tempstring = getstring();
+                        if (nameExists(tempstring, &phonebook)) {
+                            cout << tempstring << " already exists." << endl << endl;
+                            break;
+                        }
+                        else {
+                            personptr = new Teacher(tempstring);
+                            phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
 
-                do {
-                    studorteach = validinput();
-                    switch (studorteach) {
-                        case 0:
-                            printmenu();
-                            cout << "> ";
-                            break;
-                        case 1:
-                            cout << "Enter name: " << endl << "> ";
-                            tempstring = getstring();
-                            if (nameExists(tempstring, &phonebook)) {
-                                cout << tempstring << " already exists." << endl << endl;
-                            }
-                            else {
-                                personptr = new Student(tempstring);
-                                phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
-                            }
-                            break;
-                        case 2:
-                            cout << "Enter name: " << endl << "> ";
-                            tempstring = getstring();
-                            if (nameExists(tempstring, &phonebook)) {
-                                cout << tempstring << " already exists." << endl << endl;
-                            }
-                            else {
-                                personptr = new Teacher(tempstring);
-                                phonebook.insert ( pair<string,Person*>(tempstring,personptr) );
-                            }
                             cout << endl << "Add course (0 to exit): " << endl;
                             do {
                                     cout << "> ";
                                     tempstring = getstring();
-                                    
+
                                     if (nameExists(tempstring, &phonebook)) {
                                         cout << tempstring << " already exists." << endl << endl;
                                     }                                    
@@ -103,13 +99,11 @@ int main(int argc, char** argv) {
                                         }
                                     }
                             } while (tempstring != "0");                            
-                                
-                            break;
-                        default:
-                            cout << "Invalid Input." << endl << endl;
-                            break;
+                        }  
+                    default:
+                        cout << "Invalid Input." << endl << endl;
+                        break;
                     }
-                } while(studorteach != 1 && studorteach != 2);
                 break;
             //Find person
             case 2:
