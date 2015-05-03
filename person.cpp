@@ -17,6 +17,9 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <typeinfo>
+#include <cxxabi.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -53,6 +56,14 @@ void Person::getInfo() {
     }
 }
 
+string Person::getType(string derived) {
+    string str = derived;
+    str.erase(remove_if(str.begin(), str.end(), [](char c) {
+        return !isalpha(c); 
+    } ), str.end());
+    return str;
+}
+
 bool Person::isStudent() {
     if (this->ptype == "Student") {
         return true;
@@ -61,7 +72,7 @@ bool Person::isStudent() {
 }
 
 Student::Student(string name) : Person(name, "Student") {
-    string temptype = this->ptype;
+    string temptype = this->getType();
     temptype[0] = tolower(temptype[0]);
     cout << this->name << " added as a " << temptype << "." << endl;
 }
@@ -75,7 +86,7 @@ void Student::addCourse(string course, Course* courseptr) {
 }
 
 Teacher::Teacher(string name) : Person(name, "Teacher") {
-    string temptype = this->ptype;
+    string temptype = this->getType();
     temptype[0] = tolower(temptype[0]);
     cout << this->name << " added as a " << temptype << "." << endl;
 }

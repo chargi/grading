@@ -18,6 +18,7 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <typeinfo>
 
 using namespace std;
 
