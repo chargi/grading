@@ -25,7 +25,15 @@ using namespace std;
             virtual ~Person();
             void getInfo();
             virtual void addCourse(string, Course*) = 0;
-            bool isStudent();
+            
+            bool isStudent(); 
+            //don't do that, what will you do if you have to add a 'schoolcaretaker' (schulwart) to your software ?
+            //would you add an isSchoolCaretaker() ?
+            //if you really need this, do it with sth. like getType() and return an enum (or string), but that's not beautiful at all
+            //maybe you should think about, how you could clever cast/return objects (Person/Student/Teacher).
+            //we had a short talk about this in today's tutorium, maybe we could talk about this in more detail next time.
+            //br, David
+            
     };
     
     class Student : public Person {
